@@ -7,12 +7,26 @@ const form = useForm({
 });
 
 const submit = () => {
-  form.post("user/login");
+  form.post("/user/login");
 };
 </script>
 
 <template>
   <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow">
+    <!-- Flash Success Message -->
+    <div v-if="$page.props.flash && $page.props.flash.success" class="bg-green-200">
+      {{ $page.props.flash.success }}
+    </div>
+    <div v-if="$page.props.flash && $page.props.flash.error" class="bg-red-200">
+      {{ $page.props.flash.error }}
+    </div>
+    <div v-if="$page.props.errors && Object.keys($page.props.errors).length" class="text-red-700 font-bold">
+      <ul>
+        <li v-for="(errorMessages, field) in $page.props.errors" :key="field">
+          {{ errorMessages }}
+        </li>
+      </ul>
+    </div>
     <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
 
     <form @submit.prevent="submit">

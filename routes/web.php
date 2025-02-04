@@ -29,18 +29,25 @@ Route::get('/', function () {
 Route::name('user.')->prefix('user')
     ->group(
         function (): void {
+            Route::get('/create', function () {
+                return Inertia::render('User/Create');
+            });
+            Route::get('/login', function () {
+                return Inertia::render('User/Login');
+            });
             Route::post('/create', StoreUserController::class)
                 ->name('create');
+
             Route::post('/login', LoginUserController::class)
                 ->name('login');
-            Route::middleware('auth:sanctum')->group(function (): void {
-                Route::get('/logout', LogoutUserController::class)
+            Route::middleware('auth')->group(function (): void {
+                Route::post('/logout', LogoutUserController::class)
                 ->name('logout');
             });
         }
     );
 
-//Route::middleware('auth:sanctum')->group(function (): void {
+Route::middleware('auth')->group(function (): void {
     Route::name('product.')->prefix('product')
         ->group(
             function (): void {
@@ -56,5 +63,5 @@ Route::name('user.')->prefix('user')
                     ->name('delete');
             }
         );
-    //}
-//);
+    }
+);

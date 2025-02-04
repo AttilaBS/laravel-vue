@@ -3,19 +3,25 @@ import { computed, watch } from "vue";
 import { usePage } from "@inertiajs/vue3";
 
 const page = usePage();
-const user = computed(() => page.props.auth.user ?? null);
+const user = computed(() => page.props.auth?.user ?? null);
+const isLoaded = computed(() => page.props.auth !== undefined);
+
 // Redirect if no user is authenticated
-watch(user, (newUser) => {
-  if (!newUser) {
-    window.location.href = "/login"; // Simple redirect
-  }
-}, { immediate: true });
+watch(
+    [user, isLoaded],
+    ([newUser, loaded]) => {
+      if (loaded && !newUser) {
+        window.location.href = "/user/login";
+      }
+    },
+    300
+);
 
 // Sample product data (replace with real data from backend)
 const products = [
-  { id: 1, name: "Product A", price: "$19.99", image: "https://via.placeholder.com/150" },
-  { id: 2, name: "Product B", price: "$29.99", image: "https://via.placeholder.com/150" },
-  { id: 3, name: "Product C", price: "$39.99", image: "https://via.placeholder.com/150" },
+  { id: 1, name: "Product A", price: "$19.99", image: "https://placehold.co/150" },
+  { id: 2, name: "Product B", price: "$29.99", image: "https://placehold.co/150" },
+  { id: 3, name: "Product C", price: "$39.99", image: "https://placehold.co/150" },
 ];
 </script>
 
@@ -28,8 +34,8 @@ const products = [
         <a href="/dashboard" class="text-blue-600 hover:underline">Dashboard</a>
       </div>
       <div v-else>
-        <a href="/login" class="text-blue-600 mr-4 hover:underline">Login</a>
-        <a href="/register" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign Up</a>
+        <a href="/user/login" class="text-blue-600 mr-4 hover:underline">Login</a>
+        <a href="/user/create" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign Up</a>
       </div>
     </nav>
 

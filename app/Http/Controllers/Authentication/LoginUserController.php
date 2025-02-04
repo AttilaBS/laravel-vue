@@ -13,11 +13,12 @@ final class LoginUserController extends Controller
     public function __invoke(UserRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        $user = app(User::class)->find($validated['email']);
+        $user = app(User::class)->where('email', $validated['email'])->first();
 
         if ($user && Hash::check($validated['password'], $user->password)) {
+            auth()->login($user);
 
-            return redirect()->route('home');
+            return redirect()->to('/');
         }
 
         return back()->withErrors(['email' => 'Invalid credentials']);

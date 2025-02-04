@@ -19,7 +19,7 @@ final class StoreUserController extends Controller
             $user = $storeUserService($request->validated());
             logger()->info("User with id: {$user->id} created!");
 
-            return redirect()->route('login')->with('success', 'Registration successful!');
+            return redirect()->route('user.login')->with('success', 'Registration successful!');
         } catch (Exception $e) {
             logger()->error('An error occurred while creating the user: ' . $e->getMessage());
 
