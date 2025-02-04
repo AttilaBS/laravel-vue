@@ -11,4 +11,14 @@
 9) docker compose exec --user root laravel.test bash
 10) php artisan sail:publish
 11) php artisan migrate
-12) 
+12) ./vendor/bin/sail shell
+13) composer require inertiajs/inertia-laravel:^1.3.2
+14) php artisan inertia:middleware
+15) add \App\Http\Middleware\HandleInertiaRequests::class to web middleware group at app/Http/Kernel.php
+16) npm install @inertiajs/inertia @inertiajs/inertia-vue3
+17) npm install vue@latest
+18) npm i @vitejs/plugin-vue
+19) npm install
+20) npm run dev
+
+
