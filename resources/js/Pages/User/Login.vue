@@ -11,7 +11,7 @@ const props = defineProps({
     auth: Object,
   });
 
-if (props.auth.user) {
+if (props.auth?.user) {
   Inertia.visit('/');
 }
 
@@ -21,35 +21,31 @@ const submit = () => {
 </script>
 
 <template>
-  <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow">
+  <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
     <!-- Flash Success Message -->
-    <div v-if="$page.props.flash && $page.props.flash.success" class="bg-green-200">
-      {{ $page.props.flash.success }}
+    <div v-if="form.flash && form.flash.success" class="bg-green-200">
+      {{ form.flash.success }}
     </div>
-    <div v-if="$page.props.flash && $page.props.flash.error" class="bg-red-200">
-      {{ $page.props.flash.error }}
+    <div v-if="form.flash && form.flash.error" class="bg-red-200">
+      {{ form.flash.error }}
     </div>
-    <div v-if="$page.props.errors && Object.keys($page.props.errors).length" class="text-red-700 font-bold">
-      <ul>
-        <li v-for="(errorMessages, field) in $page.props.errors" :key="field">
-          {{ errorMessages }}
-        </li>
-      </ul>
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
+      <form @submit.prevent="submit">
+        <div class="mb-4">
+          <label class="block text-sm font-medium">Email</label>
+          <input v-model="form.email" type="email" class="w-full p-2 border rounded" required />
+          <div v-if="form.errors.email" v-text="form.errors.email" class="text-red-500 text-xs mt-1"></div>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium">Password</label>
+          <input v-model="form.password" type="password" class="w-full p-2 border rounded" required />
+          <div v-if="form.errors.password" v-text="form.errors.password" class="text-red-500 text-xs mt-1"></div>
+        </div>
+
+        <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Login</button>
+      </form>
     </div>
-    <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
-
-    <form @submit.prevent="submit">
-      <div class="mb-4">
-        <label class="block text-sm font-medium">Email</label>
-        <input v-model="form.email" type="email" class="w-full p-2 border rounded" required />
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium">Password</label>
-        <input v-model="form.password" type="password" class="w-full p-2 border rounded" required />
-      </div>
-
-      <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Login</button>
-    </form>
   </div>
 </template>

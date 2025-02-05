@@ -10,17 +10,10 @@ use Illuminate\Support\Facades\Hash;
 
 final class LogoutUserController extends Controller
 {
-    public function __invoke(UserRequest $request): RedirectResponse
+    public function __invoke(): RedirectResponse
     {
-        $validated = $request->validated();
-        $user = app(User::class)->find($validated['email']);
+        auth()->logout();
 
-        if ($user && Hash::check($validated['password'], $user->password)) {
-            $user->tokens()->delete();
-
-            auth()->guard('web')->logout();
-        }
-
-        return redirect()->route('home');
+        return redirect()->route('user.login');
     }
 }

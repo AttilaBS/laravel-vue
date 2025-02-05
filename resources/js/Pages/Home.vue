@@ -2,6 +2,7 @@
 import { computed, ref, watch } from "vue";
 import { Link, usePage, router } from "@inertiajs/vue3";
 import { Inertia } from "@inertiajs/inertia";
+import { debounce } from '@/helpers/debounce';
 
 // Getting the auth information
 const page = usePage();
@@ -11,13 +12,14 @@ const props = defineProps({
   products: Object
 });
 
+const fetchResults = debounce(() => {
+  router.get('/', { search: search.value }, { preserveState: true });
+}, 300);
+
 let search = ref('');
 
-watch(search,  value => {
-  router.get('/', { search: value}, {
-    preserveState: true,
-    replace: true
-  });
+watch(search,  () => {
+  fetchResults();
 });
 
 if (!props.auth.user) {
@@ -41,12 +43,16 @@ const deleteProduct = (productId) => {
 
 <template>
     <!-- Navigation -->
-    <nav class="bg-white shadow p-4 flex justify-between">
-      <h1 class="text-xl font-bold">Laravel Vue / Inertia App</h1>
-      <div v-if="user">
-        <div v-if="page">
-          <a href="/dashboard" class="text-blue-600 hover:underline">Dashboard</a>
+    <nav class="bg-gray-300 shadow p-4 flex justify-between">
+      <div class="flex items-center">
+        <h1 class="text-lg font-bold">Laravel Vue / Inertia App</h1>
+        <div v-if="user">
+          <p class="text-sm ml-4">Welcome Back, {{ props.auth.user.name }}</p>
         </div>
+      </div>
+      <div v-if="page">
+        <Link href="/" as="button" class="cursor-pointer">Home</Link>
+        <Link href="/user/logout" method="post" as="button" class="cursor-pointer m-4">Logout</Link>
       </div>
       <div v-else>
         <a href="/user/login" class="text-blue-600 mr-4 hover:underline">Login</a>
