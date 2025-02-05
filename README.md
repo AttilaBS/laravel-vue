@@ -45,8 +45,11 @@ p) database seeder that works perfectly with policy business rule;
 q) use of Tailwind for styling for better productivity;
 r) use of foreign key at migration and constraint for data integrity;
 s) addition of foreign key in a separate migration, for rollback without issues;
+t) componentization of flash messages alerts;
 u) Protection for routes with policies at server side;
-x) use of Eloquent Attribute (accessor);
-y) use of soft delete at users and products;
-w) implementation of user register, login and logout routes;
+v) use of Eloquent Attribute (accessor);
+w) use of soft delete at users and products;
+x) implementation of user register, login and logout routes;
+y)
+z)
 
