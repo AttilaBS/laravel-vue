@@ -13,14 +13,12 @@ final class StoreUserService
      */
     public function __invoke(array $params): User
     {
-        $user = app(User::class)
+        return app(User::class)
             ->create([
                 'name' => $params['name'],
                 'email' => $params['email'],
                 'password' => Hash::make($params['password']),
+                'is_admin' => $params['is_admin'] ?? false,
             ]);
-        $user->createToken('api_token')->plainTextToken;
-
-        return $user;
     }
 }

@@ -27,7 +27,7 @@
           <input v-model="form.stock_quantity" type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required></input>
           <div v-if="form.errors.stock_quantity" v-text="form.errors.stock_quantity" class="text-red-500 text-xs mt-1"></div>
         </div>
-        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600" :disabled="form.processing">Register Product</button>
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600" :disabled="form.processing">Create Product</button>
       </form>
     </div>
   </div>

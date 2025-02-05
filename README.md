@@ -9,15 +9,16 @@
 8) docker compose exec --user root laravel.test bash
 9) php artisan sail:publish
 10) php artisan migrate
-11) ./vendor/bin/sail shell
-12) composer require inertiajs/inertia-laravel:^1.3.2
-13) php artisan inertia:middleware
-14) npm install @inertiajs/inertia @inertiajs/inertia-vue3
-15) npm install vue@latest
-16) npm i @vitejs/plugin-vue
-17) npm install
-18) npm run dev
-19) access the frontend at http://localhost:<port>
+11) php artisan db:seed
+12) ./vendor/bin/sail shell
+13) composer require inertiajs/inertia-laravel:^1.3.2
+14) php artisan inertia:middleware
+15) npm install @inertiajs/inertia @inertiajs/inertia-vue3
+16) npm install vue@latest
+17) npm i @vitejs/plugin-vue
+18) npm install
+19) npm run dev
+20) access the frontend at http://localhost:<port>
 
 Implementations:
 
@@ -35,5 +36,11 @@ j) real time search without page full reload;
 k) implementation of seeder;
 l) implementation of factories;
 m) implementation of native debounce function to limit the number of requests from search;
-n) 
+n) implementation of authorization with Laravel Policy;
+o) backend pagination completely functional;
+p) database seeder that works perfectly with policy business rule;
+q) use of Tailwind for styling for better productivity;
+r) use of foreign key at migration and constraint for data integrity;
+s) addition of foreign key in a separate migration, for rollback without issues;
+u) Protection for routes with policies at server side;
 

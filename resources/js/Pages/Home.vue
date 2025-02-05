@@ -9,7 +9,8 @@ const page = usePage();
 const user = computed(() => page.props.auth?.user ?? null);
 const props = defineProps({
   auth: Object,
-  products: Object
+  products: Object,
+  can: Object
 });
 
 const fetchResults = debounce(() => {
@@ -66,9 +67,8 @@ const deleteProduct = (productId) => {
       <p class="text-lg text-gray-600">Find the best deals on our catalog.</p>
     </section>
 
-    <!-- Create Product Button -->
     <section class="flex justify-between mb-6">
-      <button @click="createProduct" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+      <button @click="createProduct" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 cursor-pointer">
         Create Product
       </button>
       <!--   Search   -->
@@ -91,10 +91,10 @@ const deleteProduct = (productId) => {
           </figcaption>
           <!-- Buttons -->
           <div class="flex justify-center gap-2 mt-8">
-            <button @click="editProduct(product.id)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            <button v-if="can.editProduct" @click="editProduct(product.id)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer">
               Edit
             </button>
-            <button @click="deleteProduct(product.id)" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+            <button v-if="can.destroyProduct" @click="deleteProduct(product.id)" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer">
               Delete
             </button>
           </div>

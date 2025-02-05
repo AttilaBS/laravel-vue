@@ -26,7 +26,7 @@ class ProductFactory extends Factory
             'stock_quantity' => fake()->numberBetween(0, 8888),
             'owner_id' => User::query()->firstOr(
                 fn () => User::factory()->create()
-            ),
+            )->id,
         ];
     }
 }

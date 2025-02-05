@@ -22,7 +22,6 @@ class ListProductsService
             ->where('owner_id', $user->id)
             ->paginate($perPage)
             ->withQueryString();
-
 //        return Cache::remember(
 //            "products-listing-$userId",
 //            60,

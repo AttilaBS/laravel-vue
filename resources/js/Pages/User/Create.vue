@@ -13,7 +13,7 @@ const props = defineProps({
   auth: Object,
 });
 
-if (props.auth.user) {
+if (props.auth?.user) {
   Inertia.visit('/');
 }
 

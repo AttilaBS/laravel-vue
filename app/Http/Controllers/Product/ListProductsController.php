@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Services\ListProductsService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -26,6 +27,10 @@ final class ListProductsController extends Controller
 
         return Inertia::render('Home', [
             'products' => $products,
+            'can' => [
+                'editProduct' => $user->can('edit', Product::class),
+                'destroyProduct' => $user->can('destroy', Product::class),
+            ]
         ]);
     }
 }

@@ -52,11 +52,11 @@ Route::middleware('auth')->group(function (): void {
                 Route::post('/store', StoreProductController::class)
                     ->name('store');
                 Route::get('/edit', EditProductController::class)
-                    ->name('edit');
+                    ->name('edit')->middleware('can:edit,App\Models\Product');
                 Route::put('/update/{uuid}', UpdateProductController::class)
                     ->name('update');
                 Route::delete('/delete/{uuid}', DeleteProductController::class)
-                    ->name('delete');
+                    ->name('delete')->middleware('can:destroy,App\Models\Product');
             }
         );
     }

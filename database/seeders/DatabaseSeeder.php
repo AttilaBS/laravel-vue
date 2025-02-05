@@ -13,19 +13,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $firstUser = User::query()
-            ->where('email', 'first-user@example.com')
+        $adminUser = User::query()
+            ->where('email', 'admin-user@email.com')
             ->first();
-        if (! $firstUser) {
+        if (! $adminUser) {
             User::factory()->create([
-                'name' => 'First User',
-                'email' => 'first-user@example.com',
+                'name' => 'Admin User',
+                'email' => 'admin-user@email.com',
                 'password' => bcrypt('12345678'),
+                'is_admin' => true,
             ]);
         }
 
-         User::factory(10)->create();
+        User::factory(15)->create();
 
-         Product::factory(500)->create();
+        $randomOwnerUsers = fake()->numberBetween(1, 15);
+
+        Product::factory(250)->create(['owner_id' => $adminUser->id]);
+        Product::factory(250)->create(['owner_id' => $randomOwnerUsers]);
     }
 }
