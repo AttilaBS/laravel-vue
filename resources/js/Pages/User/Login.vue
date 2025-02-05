@@ -1,6 +1,7 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
 import { Inertia } from "@inertiajs/inertia";
+import FlashMessage from "../../Components/FlashMessage.vue";
 
 const form = useForm({
   email: "",
@@ -22,13 +23,8 @@ const submit = () => {
 
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-    <!-- Flash Success Message -->
-    <div v-if="form.flash && form.flash.success" class="bg-green-200">
-      {{ form.flash.success }}
-    </div>
-    <div v-if="form.flash && form.flash.error" class="bg-red-200">
-      {{ form.flash.error }}
-    </div>
+    <FlashMessage />
+  </div>
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
       <form @submit.prevent="submit">

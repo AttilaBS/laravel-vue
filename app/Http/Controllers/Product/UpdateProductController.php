@@ -20,7 +20,7 @@ final class UpdateProductController extends Controller
             logger()->notice("The product $updatedProduct->id was updated.");
 
             return redirect()
-                ->route('products.index')
+                ->route('home')
                 ->with('success', 'Product updated successfully.');
         } catch (\Exception $e) {
             logger()->error(

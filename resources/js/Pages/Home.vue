@@ -3,6 +3,7 @@ import { computed, ref, watch } from "vue";
 import { Link, usePage, router } from "@inertiajs/vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { debounce } from '@/helpers/debounce';
+import FlashMessage from "../Components/FlashMessage.vue";
 
 // Getting the auth information
 const page = usePage();
@@ -63,10 +64,10 @@ const deleteProduct = (productId) => {
 
     <!-- Hero Section -->
     <section class="text-center py-16">
+      <FlashMessage />
       <h1 class="text-4xl font-bold mb-2">Discover Amazing Products</h1>
       <p class="text-lg text-gray-600">Find the best deals on our catalog.</p>
     </section>
-
     <section class="flex justify-between mb-6">
       <button @click="createProduct" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 cursor-pointer">
         Create Product

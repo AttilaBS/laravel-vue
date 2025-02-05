@@ -1,7 +1,10 @@
+#### Installation instructions:
+
+
 1) composer create-project "laravel/laravel:^10.0" laravel-vue
 2) cd laravel-vue
 3) composer require laravel/sail --dev
-4) php artisan sail:install 
+4) php artisan sail:install
 5) Adjust environment variables
 6) ./vendor/bin/sail up -d
 7) sudo chmod -R 775 storage
@@ -20,7 +23,7 @@
 19) npm run dev
 20) access the frontend at http://localhost:<port>
 
-Implementations:
+#### Worth Highlighting Implementations:
 
 a) use of Inertia form helper, to protect system from user spamming the submit button;
 b) Disabling of submit button after first submission;
@@ -43,4 +46,7 @@ q) use of Tailwind for styling for better productivity;
 r) use of foreign key at migration and constraint for data integrity;
 s) addition of foreign key in a separate migration, for rollback without issues;
 u) Protection for routes with policies at server side;
+x) use of Eloquent Attribute (accessor);
+y) use of soft delete at users and products;
+w) implementation of user register, login and logout routes;
 

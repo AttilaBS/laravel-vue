@@ -1,9 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-    <!-- Validation Errors -->
-    <div v-if="form.flash && form.flash.error" class="bg-red-200">
-      {{ form.flash.error }}
-    </div>
+    <FlashMessage />
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h2 class="text-2xl font-bold mb-6 text-center">Create a Product</h2>
       <form @submit.prevent="submit">
@@ -35,6 +32,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+import FlashMessage from "../../Components/FlashMessage.vue";
 
 const form = useForm({
   name: null,
