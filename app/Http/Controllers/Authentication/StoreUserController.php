@@ -16,6 +16,9 @@ final class StoreUserController extends Controller
         StoreUserService $storeUserService
     ): RedirectResponse {
         try {
+            if (auth()->check()) {
+                return redirect()->to('/');
+            }
             $user = $storeUserService($request->validated());
             logger()->info("User with id: {$user->id} created!");
 

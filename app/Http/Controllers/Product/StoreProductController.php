@@ -19,7 +19,7 @@ final class StoreProductController extends Controller
             logger()->notice("The product $product->id was created.");
 
             return redirect()
-                ->route('products.index')
+                ->route('home')
                 ->with('success', 'Product created successfully.');
         } catch (Exception $e) {
             logger()->error(

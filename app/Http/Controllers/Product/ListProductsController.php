@@ -4,23 +4,28 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Services\ListProductsService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 final class ListProductsController extends Controller
 {
     public function __invoke(
         ListProductsService $listProductsService,
-        int $perPage = 50
-    ): InertiaResponse {
+        Request $request,
+        int $perPage = 20
+    ): InertiaResponse|SymfonyResponse {
         $user = auth()->user();
-        $products = $listProductsService($user, $perPage);
+        if (! auth()->check()) {
+
+            return Inertia::location(route('user.login-page'));
+        }
+        $search = $request->input('search');
+        $products = $listProductsService($user, $search, $perPage);
 
         return Inertia::render('Home', [
             'products' => $products,
-            'auth' => ['user' => $user],
         ]);
     }
 }

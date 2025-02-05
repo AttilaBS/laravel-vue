@@ -1,10 +1,19 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
+import { Inertia } from "@inertiajs/inertia";
 
 const form = useForm({
   email: "",
   password: "",
 });
+
+const props = defineProps({
+    auth: Object,
+  });
+
+if (props.auth.user) {
+  Inertia.visit('/');
+}
 
 const submit = () => {
   form.post("/user/login");

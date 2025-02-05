@@ -3,7 +3,9 @@
 use App\Http\Controllers\Authentication\LoginUserController;
 use App\Http\Controllers\Authentication\LogoutUserController;
 use App\Http\Controllers\Authentication\StoreUserController;
+use App\Http\Controllers\Product\CreateProductController;
 use App\Http\Controllers\Product\DeleteProductController;
+use App\Http\Controllers\Product\EditProductController;
 use App\Http\Controllers\Product\ListProductsController;
 use App\Http\Controllers\Product\SearchProductsController;
 use App\Http\Controllers\Product\StoreProductController;
@@ -22,22 +24,17 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-});
-
 Route::name('user.')->prefix('user')
     ->group(
         function (): void {
             Route::get('/create', function () {
                 return Inertia::render('User/Create');
-            });
+            })->name('create-page');
             Route::get('/login', function () {
                 return Inertia::render('User/Login');
-            });
+            })->name('login-page');
             Route::post('/create', StoreUserController::class)
                 ->name('create');
-
             Route::post('/login', LoginUserController::class)
                 ->name('login');
             Route::middleware('auth')->group(function (): void {
@@ -48,11 +45,15 @@ Route::name('user.')->prefix('user')
     );
 
 Route::middleware('auth')->group(function (): void {
+    Route::get('/', ListProductsController::class)
+        ->name('home');
     Route::name('product.')->prefix('product')
         ->group(
             function (): void {
-                Route::get('/list', ListProductsController::class)
-                    ->name('list');
+                Route::get('/create', CreateProductController::class)
+                    ->name('create');
+                Route::get('/edit', EditProductController::class)
+                    ->name('edit');
                 Route::get('/search', SearchProductsController::class)
                     ->name('search');
                 Route::post('/store', StoreProductController::class)

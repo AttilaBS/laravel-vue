@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<User>
@@ -19,7 +20,7 @@ class ProductFactory extends Factory
     {
 
         return [
-            'name' => fake()->word(),
+            'name' => Str::random(40),
             'description' => fake()->text(250),
             'price' => fake()->randomFloat(45.45, 9999.99),
             'stock_quantity' => fake()->numberBetween(0, 8888),

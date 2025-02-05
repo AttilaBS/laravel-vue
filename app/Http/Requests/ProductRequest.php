@@ -22,12 +22,13 @@ final class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'name' => ['required', 'string', 'between:3,80', new NamePattern],
             'description' => 'nullable|string|between:5,255',
             'price' => 'required|decimal:2',
             'stock_quantity' => 'required|integer|between:1,9999',
-            'owner_id' => 'required|integer|exists:users,id',
+            'search' => 'nullable|string|between:1,255',
         ];
     }
 }

@@ -15,6 +15,10 @@ final class LoginUserController extends Controller
         $validated = $request->validated();
         $user = app(User::class)->where('email', $validated['email'])->first();
 
+        if (auth()->check()) {
+            return redirect()->to('/');
+        }
+
         if ($user && Hash::check($validated['password'], $user->password)) {
             auth()->login($user);
 
