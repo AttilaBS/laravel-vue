@@ -15,8 +15,8 @@ class ListProductsService
             return Product::query()
                 ->when($search, function($query, $search) {
                     $query->where(function($query) use ($search) {
-                        $query->where('name', 'like', "%{$search}%");
-                        $query->orWhere('description', 'like', "%{$search}%");
+                        $query->where('name', 'ILIKE', "%{$search}%");
+                        $query->orWhere('description', 'ILIKE', "%{$search}%");
                     });
                 })
                 ->select(['id', 'name', 'description', 'price', 'stock_quantity', 'created_at'])
