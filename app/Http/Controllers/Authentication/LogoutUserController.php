@@ -10,7 +10,7 @@ final class LogoutUserController extends Controller
 {
     public function __invoke(): RedirectResponse
     {
-        app(CleaUserCache::class)(auth()->user());
+        app(CleaUserCache::class)(auth()->user()->id);
         auth()->logout();
 
         return redirect()->route('user.login');
