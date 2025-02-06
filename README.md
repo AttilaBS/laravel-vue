@@ -54,32 +54,32 @@
 
 ## Worth Highlighting Implementations:
 
-### a) use of Inertia form helper, to protect system from user spamming the submit button;
-### b) Disabling of submit button after first submission;
-### c) authentication at server-side;
-### d) Laravel form requests for better scope validation;
-### e) single action controllers for better decoupling;
-### f) docker orchestration for better productivity;
-### g) parameter and functions return typing;
-### h) applying PSR-12 at PHP;
-### i) logging main CRUD executions for monitorability;
-### j) real time search without page full reload;
-### k) implementation of seeder;
-### l) implementation of factories;
-### m) implementation of native JS debounce function to limit the number of requests per search;
-### n) implementation of authorization with Laravel Policy;
-### o) backend pagination completely functional;
-### p) database seeder that works perfectly with policy logic;
-### q) use of Tailwind for styling for better productivity;
-### r) use of foreign key at migration and constraint for data integrity;
-### s) addition of foreign key in a separate migration, for rollback without issues;
-### t) componentization of flash messages alerts;
-### u) Protection for routes with policies at server side;
-### v) use of Eloquent Attribute (accessor);
-### w) use of soft delete at users and products;
-### x) implementation of user register, login and logout routes;
-### y) implementation of redis cache at products list for faster navigation where is needed, with ttl and flush at logout;
-### z) implementation of integration tests for users and products with pest;
-### z1) use of pinia for global state management of logged-in user;
-### z2) use of Eloquent Observer for cache cleaning at product change, addition or deletion;
-### z3) client and server inputs protection and validation.
+#### a) use of Inertia form helper, to protect system from user spamming the submit button;
+#### b) Disabling of submit button after first submission;
+#### c) authentication at server-side;
+#### d) Laravel form requests for better scope validation;
+#### e) single action controllers for better decoupling;
+#### f) docker orchestration for better productivity;
+#### g) parameter and functions return typing;
+#### h) applying PSR-12 at PHP;
+#### i) logging main CRUD executions for monitorability;
+#### j) real time search without page full reload;
+#### k) implementation of seeder;
+#### l) implementation of factories;
+#### m) implementation of native JS debounce function to limit the number of requests per search;
+#### n) implementation of authorization with Laravel Policy;
+#### o) backend pagination completely functional;
+#### p) database seeder that works perfectly with policy logic;
+#### q) use of Tailwind for styling for better productivity;
+#### r) use of foreign key at migration and constraint for data integrity;
+#### s) addition of foreign key in a separate migration, for rollback without issues;
+#### t) componentization of flash messages alerts;
+#### u) Protection for routes with policies at server side;
+#### v) use of Eloquent Attribute (accessor);
+#### w) use of soft delete at users and products;
+#### x) implementation of user register, login and logout routes;
+#### y) implementation of redis cache at products list for faster navigation where is needed, with ttl and flush at logout;
+#### z) implementation of integration tests for users and products with pest;
+#### z1) use of pinia for global state management of logged-in user;
+#### z2) use of Eloquent Observer for cache cleaning at product change, addition or deletion;
+#### z3) client and server inputs protection and validation.
