@@ -23,7 +23,8 @@ final class ListProductsController extends Controller
             return Inertia::location(route('user.login-page'));
         }
         $search = $request->input('search');
-        $products = $listProductsService($user, $search, $perPage);
+        $currentPage = $request->input('page', 1);
+        $products = $listProductsService($user, $currentPage, $perPage, $search);
 
         return Inertia::render('Home', [
             'products' => $products,

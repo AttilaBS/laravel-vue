@@ -9,32 +9,54 @@ use Illuminate\Support\Facades\Cache;
 
 class ListProductsService
 {
-    public function __invoke(User $user, ?string $search, int $perPage): LengthAwarePaginator
-    {
+    public function __invoke(
+        User $user,
+        int $currentPage,
+        int $perPage,
+        ?string $search
+    ): LengthAwarePaginator {
         if ($search) {
             return Product::query()
-                ->when($search, function($query, $search) {
-                    $query->where(function($query) use ($search) {
-                        $query->where('name', 'ILIKE', "%{$search}%");
-                        $query->orWhere('description', 'ILIKE', "%{$search}%");
-                    });
+                ->where('owner_id', $user->id)
+                ->where(function ($query) use ($search) {
+                    $query->where('name', 'ILIKE', "%$search%")
+                        ->orWhere('description', 'ILIKE', "%$search%");
                 })
                 ->select(['id', 'name', 'description', 'price', 'stock_quantity', 'created_at'])
-                ->where('owner_id', $user->id)
                 ->paginate($perPage)
                 ->withQueryString();
         }
+        // If there is no search parameter, it will cache the products for faster browsing
+        $ids = Cache::tags(['user:' . $user->id])
+            ->remember(
+                'products-listing',
+                now()->addMinutes(5),
+                fn () => Product::where('owner_id', $user->id)->pluck('id')->toArray()
+            );
 
-        return Cache::tags(['user:' . $user->id])->remember(
-            'products-listing',
-            120,
-            static function() use ($user, $perPage) {
-                return Product::query()
-                    ->select(['id', 'name', 'description', 'price', 'stock_quantity', 'created_at'])
-                    ->where('owner_id', $user->id)
-                    ->paginate($perPage)
-                    ->withQueryString();
-            }
+        $totalProducts = count($ids);
+        if ($totalProducts === 0) {
+            return new LengthAwarePaginator([], 0, $perPage, $currentPage);
+        }
+
+        $pagedIds = array_slice($ids, ($currentPage - 1) * $perPage, $perPage);
+
+        $products = Product::whereIn('id', $pagedIds)
+            ->select(['id', 'name', 'description', 'price', 'stock_quantity', 'created_at'])
+            ->orderByRaw(
+                "ARRAY_POSITION(
+                        ARRAY[" . implode(
+                        ',',
+                        array_map(static fn($id) => "'$id'", $pagedIds)
+                        ) . "]::uuid[], id)"
+            )
+            ->get();
+
+        return new LengthAwarePaginator(
+            $products,
+            $totalProducts,
+            $perPage,
+            $currentPage
         );
     }
 }
