@@ -26,31 +26,22 @@
 
 ## Installation instructions:
 
-1) mkdir {project_name} and cd {project_name}
-2) git clone git@github.com:AttilaBS/laravel-vue.git
-3) composer require laravel/sail --dev
-4) php artisan sail:install
-5) cp .env.example .env
-6) ./vendor/bin/sail up -d
-7) sudo chmod -R 775 storage
-   sudo chmod -R 775 docker
-8) docker compose exec --user root laravel.test bash
-9) php artisan sail:publish
-10) php artisan migrate
-11) php artisan db:seed
-12) GRANT ALL PRIVILEGES ON DATABASE testing TO sail;
-    ALTER DATABASE testing OWNER TO sail;
-13) composer require pestphp/pest-plugin-laravel --dev
-14) ./vendor/bin/sail shell
-15) composer require inertiajs/inertia-laravel:^1.3.2
-16) php artisan inertia:middleware
-17) npm install @inertiajs/inertia @inertiajs/inertia-vue3
-18) npm install vue@latest
-19) npm i @vitejs/plugin-vue
-20) npm install
-21) npm run dev
-22) access the frontend at http://localhost:{port}
-23) Run the tests with php artisan test inside laravel.test container
+1) git clone git@github.com:AttilaBS/laravel-vue.git
+2) cd laravel-vue
+3) composer install
+4) cp .env.example .env
+5) php artisan sail:install (unselect mysql, select: pgsql and redis with space bar)
+6) ./vendor/bin/sail up -d (use sudo if needed)
+7) docker compose exec --user root laravel.test bash (use sudo if needed)
+8) php artisan sail:publish
+9) php artisan migrate
+10) php artisan db:seed
+11) php artisan key:generate
+12) npm install
+13) npm run dev
+14) access the frontend at http://localhost:{port}
+15) Run the tests with php artisan test inside laravel.test container
+16) If you want to test admin user at application, log-in with credentials: admin-user@email.com and pass: 12345678
 
 ## Worth Highlighting Implementations:
 
@@ -83,4 +74,5 @@
 #### z1) use of pinia for global state management of logged-in user;
 #### z2) use of Eloquent Observer for cache cleaning at product change, addition or deletion;
 #### z3) client and server inputs protection and validation;
-#### z4) Error handling at main controllers.
+#### z4) Error handling at main controllers;
+#### z5) Hashing of passwords, using the secure bcrypt algorithm.
