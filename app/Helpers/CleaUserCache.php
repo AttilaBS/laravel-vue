@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Cache;
 
 class CleaUserCache
 {
-    public function __invoke(User $user): void
+    public function __invoke(int $userId): void
     {
-        Cache::tags(['user:' . $user->id])->flush();
+        Cache::tags(['user:' . $userId])->flush();
     }
 }
