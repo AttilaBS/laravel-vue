@@ -50,6 +50,6 @@ u) Protection for routes with policies at server side;
 v) use of Eloquent Attribute (accessor);
 w) use of soft delete at users and products;
 x) implementation of user register, login and logout routes;
-y)
+y) implementation of redis cache with ttl and flush at logout for faster navigation where is needed
 z)
 

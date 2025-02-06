@@ -24,7 +24,6 @@ const submit = () => {
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
     <FlashMessage />
-  </div>
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
       <form @submit.prevent="submit">
