@@ -1,20 +1,14 @@
 <script setup>
-import { useForm } from "@inertiajs/vue3";
-import { Inertia } from "@inertiajs/inertia";
+import { useForm, usePage } from "@inertiajs/vue3";
 import FlashMessage from "../../Components/FlashMessage.vue";
+import BaseLayout from "../../Layout/BaseLayout.vue";
 
 const form = useForm({
   email: "",
   password: "",
 });
 
-const props = defineProps({
-    auth: Object,
-  });
-
-if (props.auth?.user) {
-  Inertia.visit('/');
-}
+const { props } = usePage();
 
 const submit = () => {
   form.post("/user/login");
@@ -22,6 +16,7 @@ const submit = () => {
 </script>
 
 <template>
+  <BaseLayout />
   <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
     <FlashMessage />
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">

@@ -1,4 +1,27 @@
+<script setup>
+import { useForm } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
+import FlashMessage from "../../Components/FlashMessage.vue";
+import BaseLayout from "../../Layout/BaseLayout.vue";
+
+const props = defineProps({
+  product: Object,
+});
+
+const form = useForm({
+  name: props.product.name,
+  price: props.product.price,
+  description: props.product.description,
+  stock_quantity: props.product.stock_quantity,
+});
+
+const submit = () => {
+  form.put(`/product/update/${props.product.id}`, form);
+};
+</script>
+
 <template>
+  <BaseLayout />
   <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
     <!-- Validation Errors -->
     <FlashMessage />
@@ -30,24 +53,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { useForm } from '@inertiajs/vue3';
-import { defineProps } from 'vue';
-import FlashMessage from "../../Components/FlashMessage.vue";
-
-const props = defineProps({
-  product: Object,
-});
-
-const form = useForm({
-  name: props.product.name,
-  price: props.product.price,
-  description: props.product.description,
-  stock_quantity: props.product.stock_quantity,
-});
-
-const submit = () => {
-  form.put(`/product/update/${props.product.id}`, form);
-};
-</script>

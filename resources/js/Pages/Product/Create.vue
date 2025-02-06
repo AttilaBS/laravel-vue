@@ -1,4 +1,22 @@
+<script setup>
+import { useForm } from '@inertiajs/vue3';
+import FlashMessage from "../../Components/FlashMessage.vue";
+import BaseLayout from "../../Layout/BaseLayout.vue";
+
+const form = useForm({
+  name: null,
+  price: null,
+  description: null,
+  stock_quantity: null
+});
+
+const submit = () => {
+  form.post('/product/store', form);
+};
+</script>
+
 <template>
+  <BaseLayout />
   <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
     <FlashMessage />
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -29,19 +47,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { useForm } from '@inertiajs/vue3';
-import FlashMessage from "../../Components/FlashMessage.vue";
-
-const form = useForm({
-  name: null,
-  price: null,
-  description: null,
-  stock_quantity: null
-});
-
-const submit = () => {
-  form.post('/product/store', form);
-};
-</script>

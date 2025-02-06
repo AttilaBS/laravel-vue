@@ -1,15 +1,12 @@
 <script setup>
-import { computed, ref, watch } from "vue";
-import { Link, usePage, router } from "@inertiajs/vue3";
+import { ref, watch } from "vue";
+import { Link, router } from "@inertiajs/vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { debounce } from '@/helpers/debounce';
 import FlashMessage from "../Components/FlashMessage.vue";
+import BaseLayout from "../Layout/BaseLayout.vue";
 
-// Getting the auth information
-const page = usePage();
-const user = computed(() => page.props.auth?.user ?? null);
 const props = defineProps({
-  auth: Object,
   products: Object,
   can: Object
 });
@@ -23,10 +20,6 @@ let search = ref('');
 watch(search,  () => {
   fetchResults();
 });
-
-if (!props.auth.user) {
-  Inertia.visit('/user/create');
-}
 
 const createProduct = () => {
   Inertia.visit('/product/create');
@@ -44,75 +37,82 @@ const deleteProduct = (productId) => {
 </script>
 
 <template>
-    <!-- Navigation -->
-    <nav class="bg-gray-300 shadow p-4 flex justify-between">
-      <div class="flex items-center">
-        <h1 class="text-lg font-bold">Laravel Vue / Inertia App</h1>
-        <div v-if="user">
-          <p class="text-sm ml-4">Welcome Back, {{ props.auth.user.name }}</p>
+  <BaseLayout />
+  <!-- Hero Section -->
+  <section class="text-center py-20 bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md">
+    <FlashMessage />
+    <h1 class="text-5xl font-bold mb-3">Discover Amazing Products</h1>
+    <p class="text-lg text-gray-200">Find the best deals on our catalog.</p>
+  </section>
+
+  <!-- Controls Section -->
+  <section class="flex justify-between items-center mt-10 mb-6 px-6">
+    <button
+        @click="createProduct"
+        class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-shadow shadow-md"
+    >
+      + Create Product
+    </button>
+
+    <input
+        v-model="search"
+        type="text"
+        placeholder="Search for products..."
+        class="w-1/3 border border-gray-300 px-4 py-2 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+    />
+  </section>
+
+  <!-- Product Grid -->
+  <div class="grid mb-8 px-6 gap-6 md:grid-cols-3 lg:grid-cols-4">
+    <div
+        v-for="product in products.data"
+        :key="product.id"
+        class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-all"
+    >
+      <figure class="p-6 text-center">
+        <blockquote>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-600 mb-2">{{ product.name }}</h3>
+          <p class="text-sm text-gray-600 mb-4">{{ product.description }}</p>
+        </blockquote>
+
+        <figcaption class="text-left">
+          <p class="font-semibold text-gray-700">Price: <span class="text-blue-600">${{ product.price }}</span></p>
+          <p class="text-sm text-gray-500">Stock: {{ product.stock_quantity }}</p>
+          <p class="text-sm text-gray-400">Added: {{ product.created_at }}</p>
+        </figcaption>
+
+        <!-- Buttons -->
+        <div class="flex justify-center gap-3 mt-6">
+          <button
+              v-if="can.editProduct"
+              @click="editProduct(product.id)"
+              class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+          >
+            Edit
+          </button>
+          <button
+              v-if="can.destroyProduct"
+              @click="deleteProduct(product.id)"
+              class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+          >
+            Delete
+          </button>
         </div>
-      </div>
-      <div v-if="page">
-        <Link href="/" as="button" class="cursor-pointer">Home</Link>
-        <Link href="/user/logout" method="post" as="button" class="cursor-pointer m-4">Logout</Link>
-      </div>
-      <div v-else>
-        <a href="/user/login" class="text-blue-600 mr-4 hover:underline">Login</a>
-        <a href="/user/create" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign Up</a>
-      </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="text-center py-16">
-      <FlashMessage />
-      <h1 class="text-4xl font-bold mb-2">Discover Amazing Products</h1>
-      <p class="text-lg text-gray-600">Find the best deals on our catalog.</p>
-    </section>
-    <section class="flex justify-between mb-6">
-      <button @click="createProduct" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 cursor-pointer">
-        Create Product
-      </button>
-      <!--   Search   -->
-        <input v-model="search" type="text" placeholder="Search..." class="border px-2 rounded-lg">
-    </section>
-
-    <div class="grid mb-8 border border-gray-200 rounded-lg shadow-xs dark:border-gray-700 md:mb-12 md:grid-cols-2 bg-white dark:bg-gray-800">
-      <div v-for="product in products.data" :key="product.id" class="shadow-md text-center">
-        <figure class="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-gray-200 rounded-t-lg md:rounded-t-none md:rounded-ss-lg md:border-e dark:bg-gray-800 dark:border-gray-700 min-h-100">
-          <blockquote class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Name:{{ product.name }}</h3>
-            <p class="my-4">Description:{{ product.description }}</p>
-          </blockquote>
-          <figcaption class="flex items-center justify-center ">
-            <div class="space-y-0.5 font-medium dark:text-white text-left rtl:text-right ms-3">
-              <div>Price:{{ product.price }}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400 ">Stock: {{ product.stock_quantity }}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400 ">Created at: {{ product.created_at }}</div>
-            </div>
-          </figcaption>
-          <!-- Buttons -->
-          <div class="flex justify-center gap-2 mt-8">
-            <button v-if="can.editProduct" @click="editProduct(product.id)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer">
-              Edit
-            </button>
-            <button v-if="can.destroyProduct" @click="deleteProduct(product.id)" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer">
-              Delete
-            </button>
-          </div>
-        </figure>
-      </div>
+      </figure>
     </div>
-<!-- Paginator -->
-  <div class="mt-6 mb-6">
-    <template v-for="link in products.links">
+  </div>
+
+  <!-- Paginator -->
+  <div class="flex justify-center space-x-2 mt-6 mb-6">
+    <template v-for="link in products.links" :key="link.label">
       <Link
           v-if="link.url"
           :href="link.url"
           v-html="link.label"
-          class="px-1"
-          :class="{ 'text-gray-500' : ! link.url, 'font-bold' : link.active }"
+          class="px-3 py-2 rounded-md border text-gray-700 bg-white hover:bg-gray-100 transition"
+          :class="{ 'font-bold bg-blue-500 text-black' : link.active }"
       />
-      <span v-else v-html="link.label" class="text-gray-400"></span>
+      <span v-else v-html="link.label" class="text-gray-400 px-3 py-2"></span>
     </template>
   </div>
 </template>
