@@ -23,6 +23,10 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/status', function (): string {
+    return 'ok';
+})->name('status');
+
 Route::name('user.')->prefix('user')
     ->group(
         function (): void {
