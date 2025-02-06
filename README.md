@@ -82,4 +82,5 @@
 #### z) implementation of integration tests for users and products with pest;
 #### z1) use of pinia for global state management of logged-in user;
 #### z2) use of Eloquent Observer for cache cleaning at product change, addition or deletion;
-#### z3) client and server inputs protection and validation.
+#### z3) client and server inputs protection and validation;
+#### z4) Error handling at main controllers.

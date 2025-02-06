@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\GenericResource;
 use App\Services\DeleteProductService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -22,7 +21,9 @@ final class DeleteProductController extends Controller
                 ->route('products.index')
                 ->with('success', 'Product removed successfully.');
         } catch (Exception $e) {
-            logger()->error("There was an error while deleting the product id:  $uuid.");
+            logger()->error("There was an error while deleting the product id:  $uuid.",
+                ['error' => $e->getMessage()]
+            );
 
             return back()->withErrors(
                 ['error' => 'Something went wrong. Please try again.']
